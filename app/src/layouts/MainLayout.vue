@@ -19,7 +19,7 @@
 
     <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
       <q-list>
-        <q-item-label header> Essential Links </q-item-label>
+        <q-item-label header> Menu Principal</q-item-label>
 
         <EssentialLink
           v-for="link in essentialLinks"
@@ -43,8 +43,14 @@ const linksList = [
   {
     title: "Login",
     caption: "acceder al sistema",
-    icon: "favorite",
+    icon: "login",
     link: "/login",
+  },
+  {
+    title: "Razas",
+    caption: "Razas de perro",
+    icon: "pets",
+    link: "/breeds",
   },
 ];
 

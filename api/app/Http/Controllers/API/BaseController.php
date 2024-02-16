@@ -27,10 +27,10 @@ class BaseController extends Controller
         return response()->json($response,);
     }
 
-    public function getUserData(User []$user, $token)
+    public function getUserData(User $user, $token)
     {
         if ($user) {
-            $success['user'] = $objUser;
+            $success['user'] = $user;
             $success['role'] = $role;
             $success['token'] = $token;
             return $success;

@@ -1,9 +1,9 @@
 <template>
+  <!--Cambio el componente para que redireccion de rutas internas-->
   <q-item clickable tag="a" @click="$router.push(link)">
     <q-item-section v-if="icon" avatar>
       <q-icon :name="icon" />
     </q-item-section>
-
     <q-item-section>
       <q-item-label>{{ title }}</q-item-label>
       <q-item-label caption>{{ caption }}</q-item-label>

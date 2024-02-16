@@ -17,9 +17,9 @@ class CreateDogsTable extends Migration
             $table->id();
             $table->string('breed')->unique();
             $table->string('photo');
+            $table->foreignId('classifier_id')->nullable();
             $table->string('size');
             $table->string('hair');
-            $table->foreignId('user_id');
             $table->foreign('classifier_id')->references('id')->on('dog_classifiers')->onDelete('cascade');
             $table->timestamps();
         });

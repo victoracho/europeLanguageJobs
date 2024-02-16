@@ -12,8 +12,14 @@ const routes = [
       {
         name: "Login",
         path: "/login",
-        component: () => import("pages/Auth/Login.vue"),
+        component: () => import("pages/Auth/LoginView.vue"),
         meta: { title: "Login" },
+      },
+      {
+        name: "Breed",
+        path: "/breeds",
+        component: () => import("pages/BreedPage.vue"),
+        meta: { title: "Breed" },
       },
     ],
   },

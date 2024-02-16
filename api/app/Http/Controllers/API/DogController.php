@@ -9,12 +9,26 @@ use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 
-class DogsController extends BaseController
+class DogController extends BaseController
 {
     public function getBreeds(Request $request)
     {
         try {
+            $result = Dog::with('classification')->get();
+            foreach ($result as $res) {
+                $res->clasification = $res->classification->name;
+                $res->photo = $res->photo;
+            }
+            $success['breeds'] = $result;
+            return $this->sendResponse($success, 'Se ha realizado la busqueda.');
+        } catch (\Throwable $th) {
+            throw $th;
+        }
+    }
 
+    public function filterBreeds(Request $request)
+    {
+        try {
             $filters = $request->filters;
             $query = DB::table('dogs');
             $query->join('dogs_applications', 'dogs.classifier_id', '=', 'dogs_classifier.id');
@@ -80,9 +94,10 @@ class DogsController extends BaseController
                     $ext = $file->extension();
                     $path = 'storage/dogs/';
                     $file->move(public_path($path), "/" . $request->breed . $ext);
+                    $dog->photo = $dog->breed . $ext;
                 }
-                $input = $request->all();
-                $dog = Dog::create($input);
+                $dog->save();
+                $dog->refresh();
                 $success['user'] = $user;
                 $success['dog'] = $dog;
                 DB::commit();
@@ -121,14 +136,23 @@ class DogsController extends BaseController
                 if ($validator->fails()) {
                     return $this->sendError('Error validation', $validator->errors());
                 }
+                $dog = new Dog();
                 $file = $request->photo;
                 if ($file) {
                     $ext = $file->extension();
                     $path = 'storage/dogs/';
                     $file->move(public_path($path), "/" . $request->breed . $ext);
+                    // guardamos solo el nombre de la foto, sin la ruta completa
+                    $dog->photo = $request->breed . $ext;
                 }
-                $input = $request->all();
-                $dog = Dog::create($input);
+                $dog->breed = $request->breed;
+                $dog->hair = $request->hair;
+                $dog->size = $request->size;
+                $dog->classifier_id = $request->classifier_id;
+                $dog->save();
+                // le hacemos un refresh para obtener la data del objeto
+                $dog->refresh();
+
                 $success['user'] = $user;
                 $success['dog'] = $dog;
                 DB::commit();

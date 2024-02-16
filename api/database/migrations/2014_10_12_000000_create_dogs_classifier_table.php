@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateDogsClassifiersTable extends Migration
+class CreateDogsClassifierTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,7 +13,7 @@ class CreateDogsClassifiersTable extends Migration
      */
     public function up()
     {
-        Schema::create('dogs_classifiers', function (Blueprint $table) {
+        Schema::create('dog_classifiers', function (Blueprint $table) {
             $table->id();
             $table->string('name')->unique();
             $table->timestamps();
@@ -27,6 +27,6 @@ class CreateDogsClassifiersTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('dogs_classifiers');
+        Schema::dropIfExists('dog_classifiers');
     }
 }

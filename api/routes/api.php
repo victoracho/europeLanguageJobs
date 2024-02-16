@@ -2,7 +2,7 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\API\DogsController;
+use App\Http\Controllers\API\DogController;
 
 /*
 |--------------------------------------------------------------------------
@@ -20,10 +20,8 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 // Para acceder al crud de razas de perros, le doy el prefijo de dogs
 Route::prefix('dogs')->group(function () {
-    // Get testimonials.
-    // Send contact email.
-    Route::post('get-breeds', [DogsController::class, 'getBreeds']);
-    Route::post('update-breed', [DogsController::class, 'updateBreed']);
-    Route::post('create-breed', [DogsController::class, 'createBreed']);
-    Route::post('delete-breed', [DogsController::class, 'deleteBreed']);
+    Route::get('get-breeds', [DogController::class, 'getBreeds']);
+    Route::post('update-breed', [DogController::class, 'updateBreed']);
+    Route::post('create-breed', [DogController::class, 'createBreed']);
+    Route::post('delete-breed', [DogController::class, 'deleteBreed']);
 });

@@ -21,45 +21,45 @@ class DogClassifierSeeder extends Seeder
         );
         //2
 
-        DB::table('roles_permissions')->insert(
+        DB::table('dog_classifiers')->insert(
             ['name' => 'Buoy']
         );
         //3
-        DB::table('roles_permissions')->insert(
+        DB::table('dog_classifiers')->insert(
             ['name' => 'Bulldog']
         );
         //4
-        DB::table('roles_permissions')->insert(
+        DB::table('dog_classifiers')->insert(
             ['name' => 'Boxer']
         );
 
         //5
-        DB::table('roles_permissions')->insert(
+        DB::table('dog_classifiers')->insert(
             ['name' => 'Sabueso']
         );
         //6
-        DB::table('roles_permissions')->insert(
+        DB::table('dog_classifiers')->insert(
             ['name' => 'Pinscher/shnauzer']
         );
         //7
-        DB::table('roles_permissions')->insert(
+        DB::table('dog_classifiers')->insert(
             ['name' => 'nordico']
         );
         //8
-        DB::table('roles_permissions')->insert(
+        DB::table('dog_classifiers')->insert(
             ['name' => 'montañero']
         );
         //9
-        DB::table('roles_permissions')->insert(
+        DB::table('dog_classifiers')->insert(
             ['name' => 'Lebreles']
         );
 
         //10
-        DB::table('roles_permissions')->insert(
+        DB::table('dog_classifiers')->insert(
             ['name' => 'terrier']
         );
         //11
-        DB::table('roles_permissions')->insert(
+        DB::table('dog_classifiers')->insert(
             ['name' => 'Bull terrier']
         );
     }
