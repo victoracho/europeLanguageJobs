@@ -10,9 +10,8 @@ Esta prueba consiste en realizar una SPA sencilla con Vue.js y Laravel, usando e
 
 Cosas que precisas instalar para correr la app:
 
-```
 Php 8 al menos, composer, NPM, la CLI de Quasar, la CLI de Laravel, mysql y un editor de sql (workbench, phpmyadmin o dbeaver)
-```
+
 
 ### Instalando el API
 El proyecto esta dividido en dos carpetas, api correspondiendo al servidor y app para el spa.
