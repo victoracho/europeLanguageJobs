@@ -31,7 +31,6 @@ class BaseController extends Controller
     {
         if ($user) {
             $success['user'] = $user;
-            $success['role'] = $role;
             $success['token'] = $token;
             return $success;
         }

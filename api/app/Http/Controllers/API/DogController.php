@@ -5,59 +5,72 @@ namespace App\Http\Controllers\API;
 use Illuminate\Http\Request;
 use App\Http\Controllers\API\BaseController as BaseController;
 use App\Models\Dog;
+use App\Models\DogClassifier;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\File;
 
 class DogController extends BaseController
 {
-    public function getBreeds(Request $request)
+    public function getBreeds()
     {
         try {
             $result = Dog::with('classification')->get();
+            $clasifications = DogClassifier::get();
+            foreach ($clasifications as $clas) {
+                $clas->value = $clas->name;
+                $clas->label = $clas->name;
+            }
+
             foreach ($result as $res) {
+                //asi obtenemos el nombre de la clasificacion de la raza de perro
                 $res->clasification = $res->classification->name;
-                $res->photo = $res->photo;
+                $res->photo = env('APP_URL') . '/storage/dogs/' . $res->photo;
             }
             $success['breeds'] = $result;
+            $success['clasifications'] = $clasifications;
             return $this->sendResponse($success, 'Se ha realizado la busqueda.');
         } catch (\Throwable $th) {
             throw $th;
         }
     }
 
-    public function filterBreeds(Request $request)
+    public function filterBreed(Request $request)
     {
         try {
-            $filters = $request->filters;
+            $filters = $request->post();
             $query = DB::table('dogs');
-            $query->join('dogs_applications', 'dogs.classifier_id', '=', 'dogs_classifier.id');
+            $query->join('dog_classifiers', 'dogs.classifier_id', '=', 'dog_classifiers.id');
             $query->select(
                 'dogs.breed',
                 'dogs.hair',
                 'dogs.size',
                 'dogs.photo',
-                'dogs_classifiers.name',
+                'dog_classifiers.name',
             );
             // se arma el query con querybuilder
             $query->where(function ($query) use ($request, $filters) {
                 if (array_key_exists('breed', $filters)) $query->where('dogs.breed', $filters['breed']);
                 if (array_key_exists('hair', $filters)) $query->where('dogs.hair', $filters['hair']);
                 if (array_key_exists('size', $filters)) $query->where('dogs.size', $filters['size']);
-                if (array_key_exists('classifier_id', $filters)) $query->where('dogs_classifiers.id', $filters['classifier_id']);
+                if (array_key_exists('classifier_id', $filters)) $query->where('dog_classifiers.id', $filters['classifier_id']);
             });
-            $query->orderBy('users.breed', 'desc');
+            $query->orderBy('dogs.breed', 'desc');
             $query->groupBy(
                 'dogs.id',
                 'dogs.breed',
                 'dogs.hair',
                 'dogs.size',
                 'dogs.photo',
-                'dogs_classifiers.name',
-                'dogs_classifiers.name',
+                'dog_classifiers.name',
+                'dog_classifiers.name',
             );
             $result =  $query->get();
-            $success['breeds'] = $result;
+            $breeds = $result;
+            foreach ($breeds as $bree) {
+                $bree->photo = env('APP_URL') . '/storage/dogs/' . $bree->photo;
+            }
+            $success['breeds'] = $breeds;
             return $this->sendResponse($success, 'Se ha realizado la busqueda.');
         } catch (\Throwable $th) {
             throw $th;
@@ -87,9 +100,9 @@ class DogController extends BaseController
                 }
 
                 $file = $request->photo;
-                if ($file) {
-                    if (File::exists(public_path($user->application->curriculum))) {
-                        File::delete(public_path($user->application->curriculum));
+                if ($file && $file != 'null') {
+                    if (File::exists(env('APP_URL') . '/storage/dogs/' . $dog->photo)) {
+                        File::delete(env('APP_URL') . '/storage/dogs/' . $dog->photo);
                     }
                     $ext = $file->extension();
                     $path = 'storage/dogs/';
@@ -101,7 +114,7 @@ class DogController extends BaseController
                 $success['user'] = $user;
                 $success['dog'] = $dog;
                 DB::commit();
-                return $this->sendResponse($success, 'Raza de perro creada con exito.');
+                return $this->sendResponse($success, 'Raza de perro editada con exito.');
             }
             return $this->sendError('Desautorizado.', ['error' => 'Error de usuario, desautarizado.']);
         } catch (\Throwable $th) {
@@ -140,7 +153,7 @@ class DogController extends BaseController
                 $file = $request->photo;
                 if ($file) {
                     $ext = $file->extension();
-                    $path = 'storage/dogs/';
+                    $path = 'storage/dogs';
                     $file->move(public_path($path), "/" . $request->breed . $ext);
                     // guardamos solo el nombre de la foto, sin la ruta completa
                     $dog->photo = $request->breed . $ext;
