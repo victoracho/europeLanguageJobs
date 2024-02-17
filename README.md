@@ -1,6 +1,6 @@
 # Detalles del proyecto
 
-Este es un repositorio para la prueba tecnica de EuropeLanguageJobs, para probar conocimientos de programacion fullstack con Laravel y Vue.js
+Este es un repositorio para la prueba tecnica de EuropeLanguageJobs, para probar conocimientos de programacion fullstack con Laravel y Vue.js. En especifico la prueba tiene logica sencilla dentro de controladores de laravel, manejo de rutas, migraciones, seeders, y autenticacion usando Sanctum. En el front, algunos componentes de quasar, manejo de memoria del cliente con vuex, rutas con vueRouter y el cliente http axios.
 
 ## Para empezar
 
