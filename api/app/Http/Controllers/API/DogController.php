@@ -47,6 +47,7 @@ class DogController extends BaseController
                 'dogs.size',
                 'dogs.photo',
                 'dog_classifiers.name',
+                'dog_classifiers.id',
             );
             // se arma el query con querybuilder
             $query->where(function ($query) use ($request, $filters) {
@@ -63,7 +64,7 @@ class DogController extends BaseController
                 'dogs.size',
                 'dogs.photo',
                 'dog_classifiers.name',
-                'dog_classifiers.name',
+                'dog_classifiers.id',
             );
             $result =  $query->get();
             $breeds = $result;
@@ -186,7 +187,18 @@ class DogController extends BaseController
                 DB::beginTransaction();
                 $dog = Dog::find($request->id)->first();
                 if ($dog) {
-                    $success['dog'] = Dog::destroy($dog->id);
+                    DB::table('dogs')
+                        ->where('id', (int)$request->id)
+                        ->delete();
+                    DB::commit();
+
+                    $breeds = Dog::with('classification')->get();
+                    foreach ($breeds as $res) {
+                        //asi obtenemos el nombre de la clasificacion de la raza de perro
+                        $res->clasification = $res->classification->name;
+                        $res->photo = env('APP_URL') . '/storage/dogs/' . $res->photo;
+                    }
+                    $success['breeds'] = $breeds;
                     return $this->sendResponse($success, 'Raza de perro eliminada con exito.');
                 }
                 return $this->sendError('Desautorizado.', ['error' => 'Error de usuario, desautarizado.']);

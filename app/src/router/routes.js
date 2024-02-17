@@ -21,6 +21,18 @@ const routes = [
         component: () => import("pages/BreedPage.vue"),
         meta: { title: "Breed" },
       },
+      {
+        name: "Logout",
+        path: "/logout",
+        component: () => import("pages/Auth/LogoutView.vue"),
+        meta: { title: "logout" },
+      },
+      {
+        name: "Design",
+        path: "/design",
+        component: () => import("pages/DesignPage.vue"),
+        meta: { title: "design" },
+      },
     ],
   },
 

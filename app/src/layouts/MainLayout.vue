@@ -11,7 +11,7 @@
           @click="toggleLeftDrawer"
         />
 
-        <q-toolbar-title> Quasar App </q-toolbar-title>
+        <q-toolbar-title> Clasificación de razas de perros</q-toolbar-title>
 
         <div>Quasar v{{ $q.version }}</div>
       </q-toolbar>
@@ -36,10 +36,11 @@
 </template>
 
 <script>
-import { defineComponent, ref } from "vue";
+import { defineComponent, ref, watchEffect } from "vue";
 import EssentialLink from "components/EssentialLink.vue";
+import { useStore } from "vuex";
 
-const linksList = [
+const userList = [
   {
     title: "Login",
     caption: "acceder al sistema",
@@ -54,6 +55,27 @@ const linksList = [
   },
 ];
 
+const adminList = [
+  {
+    title: "Logout",
+    caption: "salir del sistema",
+    icon: "logout",
+    link: "/logout",
+  },
+  {
+    title: "Razas",
+    caption: "Razas de perro",
+    icon: "pets",
+    link: "/breeds",
+  },
+  {
+    title: "Maquetación",
+    caption: "Maquetacion sencilla",
+    icon: "star",
+    link: "/design",
+  },
+];
+
 export default defineComponent({
   name: "MainLayout",
 
@@ -62,10 +84,21 @@ export default defineComponent({
   },
 
   setup() {
+    const store = useStore();
+    const list = ref();
     const leftDrawerOpen = ref(false);
+    const checkList = (user) => {
+      list.value = userList;
+      if (user) {
+        list.value = adminList;
+      }
+    };
+    watchEffect(() => {
+      checkList(store.state.user);
+    });
 
     return {
-      essentialLinks: linksList,
+      essentialLinks: list,
       leftDrawerOpen,
       toggleLeftDrawer() {
         leftDrawerOpen.value = !leftDrawerOpen.value;

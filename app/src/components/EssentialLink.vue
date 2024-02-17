@@ -12,7 +12,8 @@
 </template>
 
 <script>
-import { defineComponent } from "vue";
+import { defineComponent, ref, computed } from "vue";
+import { useStore } from "vuex";
 
 export default defineComponent({
   name: "EssentialLink",
@@ -36,6 +37,15 @@ export default defineComponent({
       type: String,
       default: "",
     },
+  },
+  setup() {
+    const store = useStore();
+    const role = computed(() => {
+      return store.state.user.role;
+    });
+    return {
+      role,
+    };
   },
 });
 </script>

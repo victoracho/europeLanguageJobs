@@ -47,6 +47,9 @@
 <script>
 import { defineComponent, ref } from "vue";
 import { useQuasar } from "quasar";
+import axios from "axios";
+import { useRouter } from "vue-router";
+import { useStore } from "vuex";
 export default defineComponent({
   name: "LoginView",
 
@@ -54,12 +57,35 @@ export default defineComponent({
     const $q = useQuasar();
     const email = ref("");
     const password = ref("");
-    const login = () => {
-      $q.notify({
-        message: "Error",
-        color: "red",
-        position: "top",
-      });
+    const router = useRouter();
+    const store = useStore();
+    const login = async () => {
+      let formData = new FormData();
+      formData.append("email", email.value);
+      formData.append("password", password.value);
+      formData.append("_method", "POST");
+      await axios.get("http://127.0.0.1:8000/sanctum/csrf-cookie");
+      await axios
+        .post("http://127.0.0.1:8000/api/users/login", formData)
+        .then((response) => {
+          if (response.data.success == true) {
+            // se actualiza el localstorage con el usuario logeado y el token de acceso
+            store.commit("SET_USER", response.data.user);
+            $q.notify({
+              message: "Has iniciado sesion!",
+              color: "green",
+              position: "top",
+            });
+            router.push("/breeds");
+          }
+          if (response.data.success != true) {
+            $q.notify({
+              message: "algo ha fallado!",
+              color: "red",
+              position: "top",
+            });
+          }
+        });
     };
 
     return {
