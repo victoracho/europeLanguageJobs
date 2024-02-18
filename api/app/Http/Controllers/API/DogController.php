@@ -131,8 +131,8 @@ class DogController extends BaseController
                     return $this->sendError('Desautorizado.', ['error' => 'Error de usuario, desautarizado.']);
                 DB::beginTransaction();
                 $messages = [
-                    'uploaded' => 'El curriculum debe pesar hasta 1,5mb.',
-                    'mimes' => 'El curriculum debe ser de tipo  PDF',
+                    'uploaded' => 'La foto debe ser de hasta 1.5mb.',
+                    'mimes' => 'La foto debe ser de tipo jpeg, jpg o png',
                 ];
 
                 $validator = Validator::make(

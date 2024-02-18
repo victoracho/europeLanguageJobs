@@ -20,10 +20,34 @@ export default defineComponent({
     const router = useRouter();
     const store = useStore();
     const logout = async () => {
-      store.commit("SET_USER", null);
-      store.commit("SET_TOKEN", null);
-
-      router.push("/");
+      let formData = new FormData();
+      await axios.get("http://127.0.0.1:8000/sanctum/csrf-cookie");
+      await axios
+        .post("http://127.0.0.1:8000/api/users/logout", formData, {
+          headers: {
+            Authorization: `Bearer ${store.getters.token}`,
+          },
+        })
+        .then((response) => {
+          if (response.data.success == true) {
+            // se actualiza el localstorage con el usuario logeado y el token de acceso
+            store.commit("SET_USER", null);
+            store.commit("SET_TOKEN", null);
+            $q.notify({
+              message: "Has cerrado sesion!",
+              color: "green",
+              position: "top",
+            });
+            router.push("/breeds");
+          }
+          if (response.data.success != true) {
+            $q.notify({
+              message: "algo ha fallado!",
+              color: "red",
+              position: "top",
+            });
+          }
+        });
     };
     logout();
   },

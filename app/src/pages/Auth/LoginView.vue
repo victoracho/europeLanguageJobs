@@ -71,6 +71,7 @@ export default defineComponent({
           if (response.data.success == true) {
             // se actualiza el localstorage con el usuario logeado y el token de acceso
             store.commit("SET_USER", response.data.user);
+            store.commit("SET_TOKEN", response.data.token);
             $q.notify({
               message: "Has iniciado sesion!",
               color: "green",

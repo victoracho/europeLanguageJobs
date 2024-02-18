@@ -193,7 +193,7 @@
               </template>
               >
               <!-- modificamos los props de este componente a nuestro gusto-->
-              <template v-slot:top-right="">
+              <template v-if="visible" v-slot:top-right="">
                 <q-btn
                   color="secondary"
                   icon-right="add"
@@ -392,7 +392,7 @@ export default defineComponent({
             color: "green",
             position: "top",
           });
-          window.location.reload();
+          router.go();
         });
     };
     const deleteBreed = (id) => {
@@ -438,6 +438,13 @@ export default defineComponent({
           });
 
           window.location.reload();
+        })
+        .catch(function (error) {
+          $q.notify({
+            message: "Algo inesperado ha pasado, revisa la informacion!",
+            color: "red",
+            position: "top",
+          });
         });
     };
     const visible = ref();
