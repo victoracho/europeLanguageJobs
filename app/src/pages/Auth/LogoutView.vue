@@ -21,18 +21,19 @@ export default defineComponent({
     const store = useStore();
     const logout = async () => {
       let formData = new FormData();
+      let token = store.state.token;
+      store.commit("SET_USER", null);
+      store.commit("SET_TOKEN", null);
       await axios.get("http://127.0.0.1:8000/sanctum/csrf-cookie");
       await axios
         .post("http://127.0.0.1:8000/api/users/logout", formData, {
           headers: {
-            Authorization: `Bearer ${store.getters.token}`,
+            Authorization: `Bearer ${token}`,
           },
         })
         .then((response) => {
           if (response.data.success == true) {
             // se actualiza el localstorage con el usuario logeado y el token de acceso
-            store.commit("SET_USER", null);
-            store.commit("SET_TOKEN", null);
             $q.notify({
               message: "Has cerrado sesion!",
               color: "green",
