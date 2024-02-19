@@ -71,6 +71,7 @@ class DogController extends BaseController
             foreach ($breeds as $clas) {
                 $object = (object)[];
                 $object->value = $clas->name;
+                $object->name = $clas->name;
                 $object->label = $clas->name;
                 $object->id = $clas->id;
                 $clas->classification = $object;
@@ -162,9 +163,9 @@ class DogController extends BaseController
                 if ($file) {
                     $ext = $file->extension();
                     $path = 'storage/dogs';
-                    $file->move(public_path($path), "/" . $request->breed . $ext);
+                    $file->move(public_path($path), "/" . $request->breed . '.' . $ext);
                     // guardamos solo el nombre de la foto, sin la ruta completa
-                    $dog->photo = $request->breed . $ext;
+                    $dog->photo = $request->breed . '.' . $ext;
                 }
                 $dog->breed = $request->breed;
                 $dog->hair = $request->hair;
