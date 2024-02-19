@@ -39,7 +39,7 @@ El proyecto esta dividido en dos carpetas, api correspondiendo al servidor y app
 
     'supports_credentials' => true,
 ```
-7. en tu archivo .env, que la variable este en cookie SESSION_DRIVER=cookie
+7. en tu archivo .env, que las siguientes variables de entorno esten asi:  SESSION_DRIVER=cookie, APP_URL=http://localhost:8000 y SANCTUM_STATEFUL_DOMAINS=http://localhost
 8. que tu script sanctum.php tenga los dominios donde trabajara tu spa, junto con el puerto que corresponde
 ```
     'stateful' => explode(',', env('SANCTUM_STATEFUL_DOMAINS', sprintf(
