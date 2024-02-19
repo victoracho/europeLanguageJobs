@@ -69,12 +69,7 @@ class DogController extends BaseController
             $result =  $query->get();
             $breeds = $result;
             foreach ($breeds as $clas) {
-                $object = (object)[];
-                $object->value = $clas->name;
-                $object->name = $clas->name;
-                $object->label = $clas->name;
-                $object->id = $clas->id;
-                $clas->classification = $object;
+                $clas->clasification = $clas->name;
             }
             foreach ($breeds as $bree) {
                 $bree->photo = env('APP_URL') . '/storage/dogs/' . $bree->photo;
