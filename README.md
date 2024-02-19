@@ -21,7 +21,7 @@ El proyecto esta dividido en dos carpetas, api correspondiendo al servidor y app
 3. luego crear la bd desde la terminal o desde el editor sql, colocandole el nombre de dogClassifier
 4. correr las migraciones y seeders con: php artisan migrate:fresh --seed
 5. crear symlinks con php artisan storage:link
-6. checar que el script llamado sanctum.php se vea algo asi
+6. checar que el script llamado cors se vea algo asi
 ```
     'paths' => ['api/*', 'sanctum/csrf-cookie'],
 
