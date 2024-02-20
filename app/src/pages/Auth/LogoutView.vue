@@ -40,7 +40,6 @@ export default defineComponent({
               color: "green",
               position: "top",
             });
-            router.push("/breeds");
           }
           if (response.data.success != true) {
             $q.notify({
@@ -51,6 +50,7 @@ export default defineComponent({
           }
         });
         */
+      router.push("/breeds");
     };
     logout();
   },
