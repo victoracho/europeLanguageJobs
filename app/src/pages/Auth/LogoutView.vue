@@ -24,6 +24,7 @@ export default defineComponent({
       let token = store.state.token;
       store.commit("SET_USER", null);
       store.commit("SET_TOKEN", null);
+      /*
       await axios.get("http://127.0.0.1:8000/sanctum/csrf-cookie");
       await axios
         .post("http://127.0.0.1:8000/api/users/logout", formData, {
@@ -49,6 +50,7 @@ export default defineComponent({
             });
           }
         });
+        */
     };
     logout();
   },
