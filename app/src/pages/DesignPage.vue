@@ -166,7 +166,9 @@
           <div class="page-container layout-padding bg-blue">
             <div class="row-banner-container">
               <div class="row justify-center full-width items-center">
-                <h6 style="color: white">Together, your hires, our goal!</h6>
+                <h6 style="color: white">
+                  Find more about our basic and personalized hiring solutions
+                </h6>
 
                 &nbsp; &nbsp; &nbsp;
                 <q-btn
@@ -432,8 +434,7 @@
                 <div class="row-banner-container">
                   <div class="row justify-center full-width items-center">
                     <h6 style="color: white">
-                      Find more about our basic and personalized hiring
-                      solutions
+                      Together, your hires, our goal!
                     </h6>
                   </div>
                 </div>
